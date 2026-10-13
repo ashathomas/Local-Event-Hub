@@ -1,225 +1,178 @@
+
 import { useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
 
 function RegistrationForm({ event }) {
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    people: "1",
+    participants: "1",
   });
 
-  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
-  const [submitted, setSubmitted] =
-    useState(false);
-
-  const handleChange = (e) => {
-
+  function handleChange(e) {
     const { name, value } = e.target;
 
     setFormData((previous) => ({
       ...previous,
       [name]: value,
     }));
+  }
 
-  };
-
-  const validate = () => {
-
-    const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (
-      !/\S+@\S+\.\S+/.test(formData.email)
-    ) {
-      newErrors.email = "Enter a valid email";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-
+  function handleSubmit(e) {
     e.preventDefault();
-
-    if (!validate()) {
-      return;
-    }
-
     setSubmitted(true);
-
-  };
+  }
 
   if (submitted) {
-
     return (
-      <div className="rounded-2xl bg-green-50 p-6 text-center">
+      <div className="grid gap-5 md:grid-cols-2">
+        <div className="rounded-xl border border-green-100 bg-green-50 p-6">
+          <FaCheckCircle className="text-3xl text-green-600" />
 
-        <div className="text-4xl">
-          🎉
+          <h3 className="mt-4 text-lg font-bold text-green-800">
+            Registration Successful!
+          </h3>
+
+          <p className="mt-2 text-sm leading-6 text-green-700">
+            Thank you for registering, {formData.name}!
+            Your demo registration for {event.title} is complete.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => setSubmitted(false)}
+            className="mt-4 text-sm font-semibold text-green-800 underline"
+          >
+            Register another participant
+          </button>
         </div>
 
-        <h3 className="mt-3 text-lg font-bold text-green-700">
-          Registration Successful!
-        </h3>
+        <div className="rounded-xl bg-slate-50 p-5">
+          <h3 className="font-bold text-slate-800">
+            Registration Summary
+          </h3>
 
-        <p className="mt-2 text-sm text-green-600">
-          You have registered for{" "}
-          <strong>{event.title}</strong>.
-        </p>
-
+          <p className="mt-4 text-sm text-slate-600">
+            <strong>Name:</strong> {formData.name}
+          </p>
+          <p className="mt-2 break-words text-sm text-slate-600">
+            <strong>Email:</strong> {formData.email}
+          </p>
+          <p className="mt-2 text-sm text-slate-600">
+            <strong>Participants:</strong> {formData.participants}
+          </p>
+          <p className="mt-2 text-sm text-slate-600">
+            <strong>Event:</strong> {event.title}
+          </p>
+        </div>
       </div>
     );
-
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-
-      <h3 className="mb-5 text-lg font-bold text-slate-800">
-        Register for this event
-      </h3>
-
+    <form
+      onSubmit={handleSubmit}
+      className="grid gap-5 md:grid-cols-2"
+    >
       <div className="space-y-4">
-
-        {/* Name */}
-
-        <div>
-
-          <label
-            htmlFor="name"
-            className="mb-2 block text-xs font-semibold text-slate-600"
-          >
-            Full Name
-          </label>
-
+        <label className="block">
+          <span className="text-sm font-semibold text-slate-700">
+            Full Name *
+          </span>
           <input
-            id="name"
-            name="name"
             type="text"
+            name="name"
+            autoComplete="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Enter your name"
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-indigo-500"
+            required
+            placeholder="Enter your full name"
+            className="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
           />
+        </label>
 
-          {errors.name && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.name}
-            </p>
-          )}
-
-        </div>
-
-        {/* Email */}
-
-        <div>
-
-          <label
-            htmlFor="email"
-            className="mb-2 block text-xs font-semibold text-slate-600"
-          >
-            Email
-          </label>
-
+        <label className="block">
+          <span className="text-sm font-semibold text-slate-700">
+            Email *
+          </span>
           <input
-            id="email"
-            name="email"
             type="email"
+            name="email"
+            autoComplete="email"
             value={formData.email}
             onChange={handleChange}
+            required
             placeholder="Enter your email"
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-indigo-500"
+            className="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
           />
+        </label>
 
-          {errors.email && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.email}
-            </p>
-          )}
-
-        </div>
-
-        {/* Phone */}
-
-        <div>
-
-          <label
-            htmlFor="phone"
-            className="mb-2 block text-xs font-semibold text-slate-600"
-          >
-            Phone Number
-          </label>
-
+        <label className="block">
+          <span className="text-sm font-semibold text-slate-700">
+            Phone *
+          </span>
           <input
-            id="phone"
-            name="phone"
             type="tel"
+            name="phone"
+            autoComplete="tel"
             value={formData.phone}
             onChange={handleChange}
-            placeholder="Enter phone number"
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-indigo-500"
+            required
+            placeholder="Enter your phone number"
+            className="mt-2 w-full rounded-lg border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
           />
+        </label>
 
-          {errors.phone && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.phone}
-            </p>
-          )}
-
-        </div>
-
-        {/* People */}
-
-        <div>
-
-          <label
-            htmlFor="people"
-            className="mb-2 block text-xs font-semibold text-slate-600"
-          >
-            Number of People
-          </label>
-
+        <label className="block">
+          <span className="text-sm font-semibold text-slate-700">
+            Number of Participants *
+          </span>
           <select
-            id="people"
-            name="people"
-            value={formData.people}
+            name="participants"
+            value={formData.participants}
             onChange={handleChange}
-            className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-indigo-500"
+            required
+            className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
           >
-
-            <option value="1">1 Person</option>
-            <option value="2">2 People</option>
-            <option value="3">3 People</option>
-            <option value="4">4 People</option>
-            <option value="5">5 People</option>
-
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
           </select>
-
-        </div>
+        </label>
 
         <button
           type="submit"
-          className="w-full rounded-xl bg-indigo-600 py-3 text-sm font-bold text-white transition hover:bg-indigo-700"
+          className="w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          Register Now
+          Submit Registration
         </button>
-
       </div>
 
+      <div className="flex min-h-48 flex-col items-center justify-center rounded-xl bg-indigo-50 p-6 text-center">
+        <FaCalendarAltPlaceholder />
+
+        <h3 className="mt-3 text-lg font-bold text-slate-800">
+          Register for this Event
+        </h3>
+
+        <p className="mt-2 text-sm leading-6 text-slate-500">
+          Enter your details to complete your registration for{" "}
+          <strong>{event.title}</strong>.
+        </p>
+      </div>
     </form>
+  );
+}
+
+function FaCalendarAltPlaceholder() {
+  return (
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-indigo-600 shadow-sm">
+      <span className="text-2xl">▦</span>
+    </div>
   );
 }
 
