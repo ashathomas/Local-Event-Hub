@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 
 import Navbar from "../components/Navbar";
 import EventCard from "../components/EventCard";
@@ -6,9 +6,9 @@ import Footer from "../components/Footer";
 
 import events from "../data/events";
 
-function Events() {
+function Events({ favorites = [], setFavorites }) {
 
-  const [favorites, setFavorites] = useState([]);
+  // const [favorites, setFavorites] = useState([]);
 
   const toggleFavorite = (event) => {
 
@@ -32,8 +32,7 @@ function Events() {
   return (
     <div className="min-h-screen bg-slate-50">
 
-      <Navbar />
-
+     <Navbar favorites={favorites} />
       {/* Page Header */}
 
       <section className="bg-indigo-600 py-16 text-white">
@@ -67,14 +66,14 @@ function Events() {
 
             {events.map((event) => (
 
-              <EventCard
-                key={event.id}
-                event={event}
-                onFavorite={toggleFavorite}
-                isFavorite={favorites.some(
-                  (item) => item.id === event.id
-                )}
-              />
+             <EventCard
+  key={event.id}
+  event={event}
+  onFavorite={toggleFavorite}
+  isFavorite={favorites.some(
+    (item) => String(item.id) === String(event.id)
+  )}
+/>
 
             ))}
 
