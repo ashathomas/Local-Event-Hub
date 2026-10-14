@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaCalendarAlt,
-  FaThLarge,
-  FaClipboardList,
+  // FaThLarge,
+  // FaClipboardList,
   FaPlus,
   FaEdit,
   FaTrash,
@@ -17,41 +17,50 @@ import {
 
 import Navbar from "../components/Navbar";
 
-const initialEvents = [
-  {
-    id: 1,
-    title: "Tech Conference 2026",
-    category: "Technology",
-    location: "Kochi",
-    date: "20 Nov 2026",
-    status: "Pending",
-    image:
-      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: 2,
-    title: "Music Festival",
-    category: "Music",
-    location: "Thrissur",
-    date: "12 Dec 2026",
-    status: "Approved",
-    image:
-      "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: 3,
-    title: "Food Expo",
-    category: "Food",
-    location: "Kochi",
-    date: "5 Jan 2027",
-    status: "Approved",
-    image:
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80",
-  },
-];
+// const initialEvents = [
+//   {
+//     id: 1,
+//     title: "Tech Conference 2026",
+//     category: "Technology",
+//     location: "Kochi",
+//     date: "20 Nov 2026",
+//     status: "Pending",
+//     image:
+//       "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=300&q=80",
+//   },
+//   {
+//     id: 2,
+//     title: "Music Festival",
+//     category: "Music",
+//     location: "Thrissur",
+//     date: "12 Dec 2026",
+//     status: "Approved",
+//     image:
+//       "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=300&q=80",
+//   },
+//   {
+//     id: 3,
+//     title: "Food Expo",
+//     category: "Food",
+//     location: "Kochi",
+//     date: "5 Jan 2027",
+//     status: "Approved",
+//     image:
+//       "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=300&q=80",
+//   },
+// ];
 
 function OrganizerDashboard() {
-  const [events, setEvents] = useState(initialEvents);
+  const [events, setEvents] = useState(() => {
+    try {
+      return JSON.parse(
+        localStorage.getItem("organizerEvents") || "[]"
+      );
+    } catch {
+      return [];
+    }
+  });
+  // const [events, setEvents] = useState(initialEvents);
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
@@ -92,11 +101,11 @@ function OrganizerDashboard() {
     }
   }
 
-  const sidebarLinks = [
-    { label: "Dashboard", icon: FaThLarge },
-    { label: "My Events", icon: FaClipboardList },
-    { label: "Add Event", icon: FaPlus },
-  ];
+  // const sidebarLinks = [
+  //   { label: "Dashboard", icon: FaThLarge },
+  //   { label: "My Events", icon: FaClipboardList },
+  //   { label: "Add Event", icon: FaPlus },
+  // ];
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -104,60 +113,57 @@ function OrganizerDashboard() {
 
       <div className="flex min-h-[calc(100vh-72px)]">
         {/* Sidebar */}
-        <aside
-          className={`fixed inset-y-0 left-0 z-40 mt-[72px] w-64 border-r border-slate-200 bg-white p-5 transition-transform duration-300 lg:static lg:mt-0 lg:translate-x-0 ${
-            mobileSidebarOpen
+        {/* <aside
+          className={`fixed inset-y-0 left-0 z-40 mt-[72px] w-64 border-r border-slate-200 bg-white p-5 transition-transform duration-300 lg:static lg:mt-0 lg:translate-x-0 ${mobileSidebarOpen
               ? "translate-x-0"
               : "-translate-x-full"
-          }`}
-        >
-          <div className="mb-8">
+            }`}
+        > */}
+          {/* <div className="mb-8">
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
               Organizer Panel
             </p>
             <h2 className="mt-2 text-lg font-extrabold text-slate-800">
               Manage Events
             </h2>
-          </div>
+          </div> */}
 
-          <nav className="space-y-2">
-           
-{sidebarLinks.map(({ label, icon: Icon }) =>
-  label === "My Events" ? (
-    <Link
-      key={label}
-      to="/organizer/my-events"
-      onClick={() => setMobileSidebarOpen(false)}
-      className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${
-        activeTab === label
-          ? "bg-indigo-50 text-indigo-600"
-          : "text-slate-600 hover:bg-slate-50"
-      }`}
-    >
-      <Icon />
-      {label}
-    </Link>
-  ) : (
-    <button
-      key={label}
-      type="button"
-      onClick={() => {
-        setActiveTab(label);
-        setMobileSidebarOpen(false);
-      }}
-      className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${
-        activeTab === label
-          ? "bg-indigo-50 text-indigo-600"
-          : "text-slate-600 hover:bg-slate-50"
-      }`}
-    >
-      <Icon />
-      {label}
-    </button>
-  )
-)}
+          {/* <nav className="space-y-2"> */}
 
-          </nav>
+            {/* {sidebarLinks.map(({ label, icon: Icon }) =>
+              label === "My Events" ? (
+                <Link
+                  key={label}
+                  to="/organizer/my-events"
+                  onClick={() => setMobileSidebarOpen(false)}
+                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${activeTab === label
+                      ? "bg-indigo-50 text-indigo-600"
+                      : "text-slate-600 hover:bg-slate-50"
+                    }`}
+                >
+                  <Icon />
+                  {label}
+                </Link>
+              ) : (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => {
+                    setActiveTab("label");
+                    setMobileSidebarOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${activeTab === label
+                      ? "bg-indigo-50 text-indigo-600"
+                      : "text-slate-600 hover:bg-slate-50"
+                    }`}
+                >
+                  <Icon />
+                  {label}
+                </button>
+              )
+            )} */}
+
+          {/* </nav>
 
           <Link
             to="/"
@@ -166,7 +172,7 @@ function OrganizerDashboard() {
             <FaSignOutAlt />
             Back to Website
           </Link>
-        </aside>
+        </aside> */}
 
         {/* Main content */}
         <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
@@ -197,14 +203,14 @@ function OrganizerDashboard() {
                 </div>
               </div>
 
-              <Link
+              {/* <Link
                 to="/organizer/add-event"
                 className="flex shrink-0 items-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-indigo-700"
               >
                 <FaPlus />
                 <span className="hidden sm:inline">Add New Event</span>
                 <span className="sm:hidden">Add</span>
-              </Link>
+              </Link> */}
             </div>
 
             {/* Statistics */}
@@ -234,14 +240,18 @@ function OrganizerDashboard() {
             {/* Events section */}
             <section className="mt-8">
               <div className="mb-5 flex items-center justify-between">
-                <div>
+                <Link
+                  to="/organizer/my-events"
+                  className="block cursor-pointer transition hover:opacity-80"
+                >
                   <h2 className="text-xl font-extrabold text-slate-900">
                     My Events
                   </h2>
+
                   <p className="mt-1 text-sm text-slate-500">
                     View and manage your event listings.
                   </p>
-                </div>
+                </Link>
 
                 <span className="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-bold text-indigo-600">
                   {events.length} Events
@@ -287,13 +297,12 @@ function OrganizerDashboard() {
                       </div>
 
                       <span
-                        className={`w-fit rounded-full px-3 py-1.5 text-xs font-bold ${
-                          event.status === "Approved"
+                        className={`w-fit rounded-full px-3 py-1.5 text-xs font-bold ${event.status === "Approved"
                             ? "bg-green-50 text-green-700"
                             : event.status === "Rejected"
                               ? "bg-red-50 text-red-700"
                               : "bg-amber-50 text-amber-700"
-                        }`}
+                          }`}
                       >
                         {event.status}
                       </span>
