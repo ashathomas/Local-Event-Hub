@@ -1,4 +1,3 @@
-import { FaSearch } from "react-icons/fa";
 import VoiceSearch from "./VoiceSearch";
 
 function Hero({ search, setSearch }) {
