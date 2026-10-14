@@ -189,16 +189,16 @@ import {
 const commonLinks = [
   { label: "Home", path: "/" },
   { label: "Events", path: "/events" },
-  { label: "Categories", path: "/#categories" },
-  { label: "About", path: "/#about" },
+  // { label: "Categories", path: "/#categories" },
+  { label: "About", path: "/about" },
 ];
 
 const roleLinks = {
   user: [],
   organizer: [
     { label: "Dashboard", path: "/organizer" },
-    { label: "My Events", path: "/organizer/events" },
-    { label: "Add Event", path: "/organizer" },
+    { label: "My Events", path: "/organizer/my-events" },
+    // { label: "Add Event", path: "/organizer" },
   ],
   admin: [
     { label: "Dashboard", path: "/admin" },
@@ -207,7 +207,7 @@ const roleLinks = {
   ],
 };
 
-function Navbar() {
+function Navbar({ favorites = [] }) {
   const navigate = useNavigate();
 
   const [userRole, setUserRole] = useState(
@@ -293,14 +293,22 @@ function Navbar() {
         {/* Right-side actions */}
         <div className="hidden items-center gap-5 md:flex">
           {(userRole === "guest" || userRole === "user") && (
+
             <Link
               to="/favorites"
-              aria-label="Favorites"
+              aria-label={`Favorites: ${favorites.length}`}
               title="Favorites"
-              className="text-slate-500 transition hover:text-indigo-600 dark:text-slate-300"
+              className="relative text-slate-500 transition hover:text-indigo-600 dark:text-slate-300"
             >
               <FaHeart size={21} />
+
+              {favorites.length > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+                  {favorites.length}
+                </span>
+              )}
             </Link>
+
           )}
 
           {/* <button
