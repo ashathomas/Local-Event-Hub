@@ -1,4 +1,5 @@
 import { FaSearch } from "react-icons/fa";
+import VoiceSearch from "./VoiceSearch";
 
 function Hero({ search, setSearch }) {
   return (
@@ -33,23 +34,19 @@ function Hero({ search, setSearch }) {
           around you.
         </p>
 
-        <div className="mt-8 flex h-14 w-full max-w-[620px] items-center overflow-hidden rounded-full bg-white pl-5 shadow-xl">
+      
 
-          <FaSearch className="shrink-0 text-slate-400" />
+<div className="mx-auto mt-8 flex w-full max-w-2xl items-center gap-2 rounded-2xl border border-gray-200 bg-white p-2 shadow-lg">
+  <input
+    type="text"
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    placeholder="Search events, locations..."
+    className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-gray-700 outline-none"
+  />
 
-          <input
-            type="text"
-            placeholder="Search events, locations..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="h-full min-w-0 flex-1 border-0 px-4 text-sm text-slate-700 outline-none"
-          />
-
-          <button className="mr-1.5 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white">
-            Search
-          </button>
-
-        </div>
+  <VoiceSearch onSearch={setSearch} />
+</div>
 
       </div>
     </section>
