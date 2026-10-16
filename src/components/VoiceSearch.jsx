@@ -28,10 +28,13 @@ function VoiceSearch({ onSearch }) {
     };
 
     recognition.onresult = (event) => {
-      const transcript =
-        event.results[0][0].transcript;
+
+      const transcript = event.results[0][0].transcript
+        .trim()
+        .replace(/[.!?]+$/, "");
 
       onSearch(transcript);
+
       setError("");
     };
 
